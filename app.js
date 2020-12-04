@@ -59,7 +59,7 @@ generateBtn.addEventListener("click", () => {
 });
 
 start.addEventListener("click", () => {
-  // console.log(processes);
+  console.log(processes);
   start.disabled = true;
   generateBtn.disabled = true;
   setStateToReady();
@@ -83,6 +83,7 @@ start.addEventListener("click", () => {
     }
     for (let blockedProcess of blockedProcesses) {
       blockedProcess.unlockIn -= 1;
+      console.log("Se desbloquea en", blockedProcess.unlockIn)
       if (blockedProcess.unlockIn === 0) {
         // console.log("fin de la sentencia");
         blockedProcess.state = "Listo";
