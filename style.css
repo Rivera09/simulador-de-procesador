@@ -1,3 +1,32 @@
+body{
+    background-color: rgb(219, 219, 219);
+}
+
+#logs{
+    border: 1px solid black;
+    min-height: 100px;
+    padding: 20px;
+    background-color: white;
+    margin-top: 20px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    /* border: 1px solid black; */
+    /* height: 40vh; */
+}
+
+thead{
+    /* background-color: red; */
+    background-color: white;
+    box-shadow: 0 2px 5px 1px black;
+}
+
+#pcbTable{
+    background: white;
+}
+
 th,td{
     text-align: center;
 }

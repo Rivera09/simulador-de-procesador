@@ -8,22 +8,26 @@
   </head>
   <body>
     <p>Ciclos</p>
-    <input type="number" id="cyclesInput" min="5" value="32"/>
+    <input type="number" id="cyclesInput" min="5"/>
     <input
       type="button"
       value="Generar procesos"
       id="generateProcesses"
     />
     <input type="button" value="Iniciar procesos" id="start" />
-    <input type="button" value="Detener" id="force" />
+    <input type="button" value="Reiniciar" id="resetBtn" />
     <br />
-    <table style="width: 100%" id="pcbTable">
-      <tr>
-        <th>ID</th>
-        <th>Estado</th>
-        <th>Prioridad</th>
-        <th>Instrucciones</th>
-      </tr>
+    <p>Ciclo actual: <span id="displayCycle"></span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Instrucciones</th>
+        </tr>
+      </thead>
+      <tbody id="pcbTable"></tbody>
       <!-- <tr>
         <td>100</td>
         <td>Nuevo</td>
@@ -31,6 +35,7 @@
         <td>5</td>
       </tr> -->
     </table>
+    <div id="logs"></div>
     <script src="./app.js"></script>
   </body>
 </html>

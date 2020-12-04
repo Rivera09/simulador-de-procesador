@@ -3,7 +3,9 @@ const generateBtn = document.getElementById("generateProcesses");
 const start = document.getElementById("start");
 const pcbTable = document.getElementById("pcbTable");
 const cyclesInput = document.getElementById("cyclesInput");
-const stop = document.getElementById("force");
+const resetBtn = document.getElementById("resetBtn");
+const logsDiv = document.getElementById("logs");
+const displayCycle = document.getElementById("displayCycle");
 
 // Colas de procesos.
 const processes = [];
@@ -22,29 +24,50 @@ let currentInstruction; //La instrucción actual.
 let currentCycle = 0; //Contador de ciclos.
 let interval; //Intervalo en el que se ejecuta el código.
 let remainingInstructions;
+// let logs = ""; //Se guarda la salida de consola
 // const newProcesses = []; Tal vez no sea necesario
 
 let currentId = 1;
 let testcounter = 3;
 
 // Event listeners
-stop.addEventListener("click", () => {
+resetBtn.addEventListener("click", () => {
   clearInterval(interval);
+  start.disabled = false;
+  generateBtn.disabled = false;
+  cyclesInput.disabled = false;
+  currentId = 1;
+  currentIndex = 0;
+  currentPriority = 3;
+  currentCycle = 0;
+  processes.length = 0;
+  hightPriorityProcesses.length = 0;
+  mediumPriorityProcesses.length = 0;
+  lowPriorityProcesses.length = 0;
+  blockedProcesses.length = 0;
+  finishedProcesses.length = 0;
+  paintTable();
+  logsDiv.innerText = "";
+  cyclesInput.value = "";
+  displayCycle.innerText = "";
+  cycles=0;
 });
+
+
 generateBtn.addEventListener("click", () => {
-  if (!cycles) {
-    cycles = parseInt(cyclesInput.value);
-    if (!cycles)
+  if (!cycles) { //Primero verifica que los ciclos no se hayan definido antes.
+    cycles = parseInt(cyclesInput.value); //En caso de que no hayan sido definidos, les asigna un valor.
+    if (!cycles) //Si el input de ciclos estaba vacío, se entrará a éste if.
       return alert(
         "Ingrese la cantidad de ciclos antes de generar un proceso."
       );
-    if (cycles < 5) return alert("Deben haber más de cinco ciclos.");
-    remainingInstructions = cycles;
-    cyclesInput.disabled = true;
+    if (cycles < 5) return alert("Deben haber más de cinco ciclos."); //La cantidad mínima de ciclos es 5.
+    remainingInstructions = cycles; //No pueden haber más instrucciones que ciclos.
+    cyclesInput.disabled = true; //Desactiva el input de ciclos.
   }
-  const process = createRandomProcess();
-  processes.push(process);
-  switch (process.priority) {
+  const process = createRandomProcess(); //Crea un proceso aleatorio..
+  processes.push(process); //Agrega el proceso a la lista de procesos.
+  switch (process.priority) { //Agrega el proceso a una lista en base a su prioridad.
     case 1:
       lowPriorityProcesses.push(process);
       break;
@@ -55,19 +78,21 @@ generateBtn.addEventListener("click", () => {
       hightPriorityProcesses.push(process);
       break;
   }
-  paintTable();
+  paintTable(); //Imprime la lista de procesos.
 });
 
+// Evento que sucede al iniciar todos los procesos.
 start.addEventListener("click", () => {
-  console.log(processes);
-  start.disabled = true;
-  generateBtn.disabled = true;
-  setStateToReady();
-  interval = setInterval(() => {
-    console.log("ciclo:", currentCycle);
-    if (blockedProcesses.length !== processes.length) {
-      fetchNextInstruction();
-      if (currentInstruction) {
+  start.disabled = true; //Desactiva el botón para iniciar.
+  generateBtn.disabled = true; //Desactiva el botón para crear procesos.
+  setStateToReady(); //Cambia el estado de todos los procesos a listo.
+  interval = setInterval(() => { //Se inicia el intervalo donde sucede todo.
+    displayCycle.innerText=currentCycle; //Imprime el ciclo actual.
+    //Sólo puede entrar a éste if si al menos un proceso no está bloqueado.
+    if (blockedProcesses.length + finishedProcesses.length !== processes.length) {
+      fetchNextInstruction(); //Obtiene la siguiente instrucción.
+      if (currentInstruction) { //Sólo entra aquí en caso de que la instrucción no venga vacía.
+        //Obtiene los datos de la instrucción actual.
         const {
           programCounter,
           state,
@@ -76,11 +101,11 @@ start.addEventListener("click", () => {
           blockedInstruction,
           waitingEvent,
         } = currentInstruction;
-        console.log(
-          `${programCounter}/${state}/${priority}/${instrunctions}/${blockedInstruction}/${waitingEvent}`
-        );
+        // Imprime la instrucción actual en el log.
+        logsDiv.innerText+=`${programCounter}/${state}/${priority}/${instrunctions}/${blockedInstruction}/${waitingEvent};`;
       }
     }
+    // Recorre todos los procesos bloqueados.
     for (let blockedProcess of blockedProcesses) {
       blockedProcess.unlockIn -= 1;
       console.log("Se desbloquea en", blockedProcess.unlockIn)
@@ -134,8 +159,9 @@ function createRandomProcess() {
 function paintTable() {
   // let tableBody =
   //   "<tr><th>ID</th><th>Estado</th><th>Prioridad</th><th>Instrucciones</th></tr><tr><td>100</td><td>Nuevo</td><td>3</td><td>5</td></tr>";
-  let tableBody =
-    "<tr><th>ID</th><th>Estado</th><th>Prioridad</th><th>Instrucciones</th></tr>";
+  // let tableBody =
+  //   "<thead><tr><th>ID</th><th>Estado</th><th>Prioridad</th><th>Instrucciones</th></tr></thead>";
+  let tableBody = "";
   for (let process of processes) {
     const tableRow = createTableRow(process);
     tableBody += tableRow;
