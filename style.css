@@ -1,5 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
-    background-color: rgb(219, 219, 219);
+    background-color: rgb(133, 17, 201);
 }
 
 #logs{
@@ -13,14 +19,15 @@ body{
 table{
     border-collapse: collapse;
     width: 100%;
-    /* border: 1px solid black; */
-    /* height: 40vh; */
 }
 
 thead{
     /* background-color: red; */
-    background-color: white;
-    box-shadow: 0 2px 5px 1px black;
+    background-color: lime;
+}
+
+tbody{
+    height: 100px;
 }
 
 #pcbTable{
@@ -29,4 +36,84 @@ thead{
 
 th,td{
     text-align: center;
+}
+
+td{
+    background: mediumseagreen;
+}
+
+.main-container{
+    display:flex;
+    column-gap: 5px;
+    height:100vh;
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%); */
+    padding: 50px;
+}
+
+.left-container,.right-container{
+    padding: 20px;
+    background: #1d163b;
+    border: 1px solid black;
+}
+
+.left-container{
+    width:75%;
+}
+
+.right-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width:25%;
+}
+
+.top-btns{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    background: none;
+    border: 2px solid;
+    border-radius: 5px;
+    padding:5px;
+
+}
+
+#generateProcesses{
+    border-color: blue;
+    color:blue;
+}
+
+#start{
+    border-color: green;
+    color:green;
+}
+
+#resetBtn{
+    border-color: red;
+    color:red;
+}
+
+#cyclesInput{
+    color: white;
+    border-color: purple;
+}
+
+label{
+    color: purple;
+    display: inline
+}
+
+h1{
+    position: relative;
+    top:-30px;
+    left: 15%;
+    padding: 10px;
+    border: 1px solid black;
+    background: red;
+    display: inline;;
 }
