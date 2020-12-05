@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Simulador de procesos - SO1</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Simulador de procesos - SO1</title>
-</head>
-
-<body>
-  <div class="main-container">
-    <div class="left-container">
-      <h1>Simulador de gestor de procesos</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Estado</th>
-            <th>Prioridad</th>
-            <th>Instrucciones</th>
-          </tr>
-        </thead>
-        <tbody id="pcbTable"></tbody>
-      </table>
-      <div class="displayTexts">
-        <p>Proocesamiento.</p>
-        <p>Ciclo actual: <span id="displayCycle"></span></p>
+  <body>
+    <div class="main-container">
+      <div class="left-container">
+        <h1>Simulador de gestor de procesos</h1>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Instrucciones</th>
+              </tr>
+            </thead>
+            <tbody id="pcbTable"></tbody>
+          </table>
+        </div>
+        <div class="displayTexts">
+          <p>Procesamiento:</p>
+          <p>Ciclo actual: <span id="displayCycle"></span></p>
+        </div>
+        <div id="logs"></div>
       </div>
-      <div id="logs"></div>
-    </div>
-    <div class="right-container">
-      <div class="top-btns">
-        <label for="cyclesInput">Ciclos:</label>
-        <input type="number" id="cyclesInput" min="5" />
-        <input type="button" value="Generar procesos" id="generateProcesses" />
-        <input type="button" value="Iniciar procesos" id="start" />
+      <div class="right-container">
+        <div class="top-btns">
+          <div>
+            <label for="cyclesInput">Ciclos:</label>
+            <input type="number" id="cyclesInput" min="5" />
+          </div>
+          <input
+            type="button"
+            value="Generar procesos"
+            id="generateProcesses"
+          />
+          <input type="button" value="Iniciar procesos" id="start" />
+        </div>
+        <input type="button" value="Reiniciar" id="resetBtn" />
       </div>
-      <input type="button" value="Reiniciar" id="resetBtn" />
     </div>
-  </div>
-  <script src="./app.js"></script>
-</body>
-
+    <script src="./app.js"></script>
+  </body>
 </html>
