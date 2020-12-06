@@ -22,14 +22,19 @@ let currentPriority = 3; //La prioridad que se está ejecutando.
 let currentInstruction; //La instrucción actual.
 let currentCycle = 0; //Contador de ciclos.
 let interval; //Intervalo en el que se ejecuta el código.
-let remainingInstructions;
+let remainingInstructions; //Cantidad de instrucciones restantes.
+let logs = ""; //Guarda la salida para crear un archivo.
 
-let currentId = 1;
-let testcounter = 3;
+let currentId = 1; //El id actual asignable.
 
 // Event listeners
+
+// Botón para reiniciar todo.
 resetBtn.addEventListener("click", () => {
   clearInterval(interval);
+  logs = "";
+  start.classList.remove("disabled");
+  generateBtn.classList.remove("disabled");
   start.disabled = false;
   generateBtn.disabled = false;
   cyclesInput.disabled = false;
@@ -84,7 +89,9 @@ generateBtn.addEventListener("click", () => {
 // Evento que sucede al iniciar todos los procesos.
 start.addEventListener("click", () => {
   start.disabled = true; //Desactiva el botón para iniciar.
+  start.classList.add("disabled");
   generateBtn.disabled = true; //Desactiva el botón para crear procesos.
+  generateBtn.classList.add("disabled");
   setStateToReady(); //Cambia el estado de todos los procesos a listo.
   interval = setInterval(() => {
     //Se inicia el intervalo donde sucede todo.
@@ -108,23 +115,35 @@ start.addEventListener("click", () => {
           displayState,
         } = currentInstruction;
         // Imprime la instrucción actual en el log.
-        logsDiv.innerText += `${programCounter}/${state}/${priority}/${instrunctions}/${blockedInstruction}/${waitingEvent};`;
+        const record = `${programCounter}/${state}/${priority}/${instrunctions}/${blockedInstruction}/${waitingEvent};`;
+        logsDiv.innerText += record;
+        logs += record;
+        // Imprime la tabla.
+        paintTable();
       }
     }
     // Recorre todos los procesos bloqueados.
     for (let blockedProcess of blockedProcesses) {
+      // Va restando un ciclo a la cantidad de ciclos bloqueados.
       blockedProcess.unlockIn -= 1;
+      // Sólo entra al if si la cantidad de ciclos bloqueados restantes es cero.
       if (blockedProcess.unlockIn === 0) {
+        // Cambia el estado a listo
         blockedProcess.state = 1;
         blockedProcess.displayState = "Listo";
+        // Encuentra el índice del ciclo bloqueado.
         const index = blockedProcesses.findIndex(
           (process) => process.id === blockedProcess.id
         );
+        // Elimina el proceso de la lista de procesos bloqueados.
         blockedProcesses.splice(index, 1);
+        // Imprime la tabla.
         paintTable();
       }
     }
+    // Comprueba que no se cumplan las condiciones para terminar el programa.
     stopInterval();
+    // Aumenta un ciclo.
     currentCycle++;
   }, 1000);
 });
@@ -150,7 +169,6 @@ function createRandomProcess() {
     unlockIn: 0,
   };
   currentId++;
-  testcounter--;
   remainingInstructions -= instrunctions;
   if (remainingInstructions <= 5) generateBtn.disabled = true;
   return process;
@@ -174,7 +192,7 @@ function createTableRow(process) {
     displayState,
     blockedInstruction,
     waitingEvent,
-    programCounter
+    programCounter,
   } = process;
   let rowClass;
   switch (state) {
@@ -304,6 +322,7 @@ function stopInterval() {
       lowPriorityProcesses.length === 0)
   ) {
     console.log("fin");
+    download();
     clearInterval(interval);
     return true;
   } else {
@@ -322,5 +341,38 @@ function removeProcess() {
     case 1:
       lowPriorityProcesses.splice(currentIndex, 1);
       break;
+  }
+}
+
+function download() {
+  // Crea un archivo con el string geneardo.
+  let file = new Blob([logs], { type: "text/plain" });
+  // Para Internet explorer
+  if (window.navigator.msSaveOrOpenBlob)
+    // Guarda el archivo.
+    window.navigator.msSaveOrOpenBlob(
+      file,
+      `Registro de proceso ${Date.now()}`
+    );
+  // Para los demás navegadores.
+  else {
+    // Crea un elemento tipo achor (para enlaces)
+    let a = document.createElement("a");
+    // Crea la url del archivo.
+    let url = URL.createObjectURL(file);
+    // Le asigna la url al elemento anchor
+    a.href = url;
+    // Le asigna un nombre por defecto al archivo a guardar.
+    a.download = `Registro de proceso ${Date.now()}`;
+    // Agrega el elemento a la página anchor.
+    document.body.appendChild(a);
+    // Clickea el elemento anchor.
+    a.click();
+    setTimeout(function () {
+      // Remueve el elemento anchor de la página
+      document.body.removeChild(a);
+      // Elimina la url generada previamente.
+      window.URL.revokeObjectURL(url);
+    }, 0);
   }
 }
