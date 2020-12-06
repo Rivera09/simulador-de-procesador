@@ -6,17 +6,17 @@
 }
 
 body {
-  background-color: #6dcff6;
+  background-color: #a1aef1;
   font-family: "JetBrains Mono", monospace;
 }
 
-#logs {
-  border: 1px solid black;
+.logs-container {
   height: 130px;
   padding: 20px;
   background-color: #b2bec3;
   border-radius: 10px;
   overflow: auto;
+  word-break: break-all;
   /* margin-top: 20px; */
 }
 
@@ -91,6 +91,8 @@ input {
   border: 2px solid;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
+  opacity: 0.2;
 }
 input:focus {
   background: none;
@@ -100,16 +102,17 @@ input:focus {
 }
 
 #generateProcesses {
-  border-color: blue;
-  color: blue;
+  border-color: #6dcff6;
+  color: #6dcff6;
 }
 
 #start {
-  border-color: green;
-  color: green;
+  border-color: #94b566;
+  color: #94b566;
 }
 
-#resetBtn, #resetBtn:focus{
+#resetBtn,
+#resetBtn:focus {
   border-color: #ff6363;
   color: #ff6363;
 }
@@ -141,9 +144,29 @@ h1 {
   color: white;
 }
 
-.displayTexts{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    color: #a1aef1;
+.displayTexts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #a1aef1;
+}
+
+.new td {
+  background-color: #6dcff6;
+}
+
+.ended td {
+  background-color: #c0392b;
+}
+
+.ready td {
+  background-color: #f1c40f;
+}
+
+.in-process td{
+  background-color: #2ecc71;
+}
+
+.blocked td{
+  background-color: #f39c12;
 }
