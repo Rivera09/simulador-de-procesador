@@ -6,31 +6,49 @@
     <link rel="stylesheet" href="style.css" />
     <title>Simulador de procesos - SO1</title>
   </head>
+
   <body>
-    <p>Ciclos</p>
-    <input type="number" id="cyclesInput" min="5" value="32"/>
-    <input
-      type="button"
-      value="Generar procesos"
-      id="generateProcesses"
-    />
-    <input type="button" value="Iniciar procesos" id="start" />
-    <input type="button" value="Detener" id="force" />
-    <br />
-    <table style="width: 100%" id="pcbTable">
-      <tr>
-        <th>ID</th>
-        <th>Estado</th>
-        <th>Prioridad</th>
-        <th>Instrucciones</th>
-      </tr>
-      <!-- <tr>
-        <td>100</td>
-        <td>Nuevo</td>
-        <td>3</td>
-        <td>5</td>
-      </tr> -->
-    </table>
+    <div class="main-container">
+      <div class="left-container">
+        <h1>Simulador de gestor de procesos</h1>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>PC</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Instrucciones</th>
+                <th>Instr. Bloqueada</th>
+                <th>Evento</th>
+              </tr>
+            </thead>
+            <tbody id="pcbTable"></tbody>
+          </table>
+        </div>
+        <div class="displayTexts">
+          <p>Procesamiento:</p>
+          <p>Ciclo actual: <span id="displayCycle"></span></p>
+        </div>
+        <div class="logs-container"><span id="logs"></span></div>
+      </div>
+      <div class="right-container">
+        <div class="top-btns">
+          <div>
+            <label for="cyclesInput">Ciclos:</label>
+            <input type="number" id="cyclesInput" min="5" />
+          </div>
+          <input
+            type="button"
+            value="Generar procesos"
+            id="generateProcesses"
+          />
+          <input type="button" value="Iniciar procesos" id="start" />
+        </div>
+        <input type="button" value="Reiniciar" id="resetBtn" />
+      </div>
+    </div>
     <script src="./app.js"></script>
   </body>
 </html>
