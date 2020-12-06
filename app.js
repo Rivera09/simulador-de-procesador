@@ -1,5 +1,3 @@
-//Esto es un ejemplo
-
 // DOM
 const generateBtn = document.getElementById("generateProcesses");
 const start = document.getElementById("start");
