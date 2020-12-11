@@ -93,17 +93,11 @@ input {
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
+  outline: none;
 }
 
 input.disabled{
   opacity: .2;
-}
-
-input:focus {
-  background: none;
-  border: 2px solid;
-  border-radius: 5px;
-  padding: 5px;
 }
 
 #generateProcesses {
